@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
     contact:Number,
     address:String,
     pincode:Number,
+    occupation:String,
     username:String,
     password:String
 
@@ -38,41 +39,55 @@ const User = new mongoose.model("User", userSchema )
 // } 
 
 server.post("/login", (req, res)=> {
-    const { username1, password} = req.body
-    User.findOne({ username: username1}, (err, user) => {
+    const { username, password} = req.body
+    User.findOne({ username: username}, (err, user) => {
         if(user){
             if(password === user.password ) {
-                res.send({message: "Login Successfull", user: user})
+                res.send({message: "Successfully Login !!", user: user})
             } else {
-                res.send({ message: "Password didn't match"})
+                res.send({ message: "Wrong password !!"})
             }
         } else {
-            res.send({message: "User not registered"})
+            res.send({message: "Please complete Registration first"})
         }
     })
 })
 
 server.post('/register', (req,res) =>{
-    const { name, contact, address, pincode, username, password } = req.body
-
+    const { name, contact, address, pincode, occupation, username, password } = req.body
+    
     //check if user is already exist using findOne() of mongoose
     User.findOne({username: username}, (err, user) => {
         if(user){
-            res.send({message: "User already registerd"})
+            res.send({message: "User already exist"})
         } else {
             const user = new User({
                 name,
                 contact,
                 address,
                 pincode,
+                occupation,
                 username,
                 password 
             })
             user.save(err => {
                 if(err) {
-                    res.send(err)
-                } else {
-                    res.send( { message: "Successfully Registered, Please login now." })
+                // switch (err.name) {
+                    
+                    // case 'CastError':
+                    //   res.status(400); // Bad Request
+                    //   return res.send('400');
+                    // default:
+                    //   res.status(500); // Internal server error
+                    //   return res.send('500');
+                if(err) {
+                     
+                     res.send({ message: "Invalid credentials !! Please enter valid Input" })
+                     
+                    
+                } }else {
+                    res.send( { message: "Successfully Registration Done !!" })
+
                 }
             })
         }

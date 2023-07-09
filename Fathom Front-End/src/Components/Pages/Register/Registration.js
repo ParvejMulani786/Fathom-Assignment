@@ -11,6 +11,7 @@ export default function Registration(){
     contact:"",
     address:"",
     pincode:"",
+    occupation:"",
     username:"",
     password:"",
     repassword:""
@@ -18,22 +19,29 @@ export default function Registration(){
 });
 
  const register = (e) => {
-    alert("register function called");
+    // alert("register function called");
   e.preventDefault();
   
-    if(user.name && user.contact && user.address && user.pincode && user.username && (user.password == user.repassword)){
-      alert("posted");   
+    if(user.name && user.contact && user.address && user.pincode && user.occupation && user.username && (user.password == user.repassword)){
+      // alert("posted");   
       axios.post("http://localhost:8080/register", user )
       .then((response)=>
       {
         alert(response.data.message);
-        if( response.data.message != "User already registerd"){
-          nav("/")
+        if( response.data.message == "Successfully Registration Done !!"){
+          nav("/login")
         }
      
       })}
+      else if (user.password != user.repassword){
+        alert("Please re-enter password");
+      }
       else{
-        alert("invalid input")
+        alert("Please fill all details")
+        
+        // alert("");
+        
+
       }
     
     }
@@ -55,7 +63,9 @@ export default function Registration(){
 
             <input type="text" placeholder='Enter Pincode' onBlur= {(e)=>setUser({...user, pincode:e.target.value})}/>
 
-            <input type="text" placeholder='Enter Username' onBlur= {(e)=>setUser({...user,  username:e.target.value})}/>
+            <input type="text" placeholder='Enter Occupation' onBlur= {(e)=>setUser({...user, occupation:e.target.value})}/>
+
+            <input type="text" placeholder='Enter Username / Email' onBlur= {(e)=>setUser({...user,  username:e.target.value})}/>
 
             <input type="password" placeholder='Enter Password' onBlur= {(e)=>setUser({...user,  password:e.target.value})}/>
 
@@ -63,8 +73,7 @@ export default function Registration(){
 
             
             <div type='submit' className='button' onClick={register}>Register</div>
-            {/* <div>or</div>
-            <div className='button'>Login</div> */}
+           
 
             
         </div>
