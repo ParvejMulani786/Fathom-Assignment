@@ -15,6 +15,7 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<Layout></Layout>}>
+         
             
             <Route index element={<Home/>}></Route>
             <Route path='/registration' element={<Registration></Registration>}></Route>

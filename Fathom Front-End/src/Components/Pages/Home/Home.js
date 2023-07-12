@@ -12,7 +12,7 @@ export default function Home(){
             {/* <img className="responsive" style={{paddingTop:"5rem"}} src={img1} /> */}
         </div>
         <div >
-            <img  style={{paddingTop:"5rem"}} src={img2} />
+            <img  style={{marginTop:"5rem"}} src={img2} />
         </div>
             <div>
                      <AboutUs></AboutUs>

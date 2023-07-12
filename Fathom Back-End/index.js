@@ -71,21 +71,10 @@ server.post('/register', (req,res) =>{
                 password 
             })
             user.save(err => {
-                if(err) {
-                // switch (err.name) {
-                    
-                    // case 'CastError':
-                    //   res.status(400); // Bad Request
-                    //   return res.send('400');
-                    // default:
-                    //   res.status(500); // Internal server error
-                    //   return res.send('500');
-                if(err) {
+              if(err) {
                      
                      res.send({ message: "Invalid credentials !! Please enter valid Input" })
-                     
-                    
-                } }else {
+                } else {
                     res.send( { message: "Successfully Registration Done !!" })
 
                 }

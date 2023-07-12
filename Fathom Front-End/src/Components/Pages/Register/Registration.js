@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import axios from 'axios';
 import './registration.css';
 import { useNavigate } from 'react-router-dom';
+import Validation from './Validation';
 
 export default function Registration(){
     const nav=useNavigate();
@@ -17,11 +18,27 @@ export default function Registration(){
     repassword:""
 
 });
+const[ errors, setErrors ] = useState({})
 
- const register = (e) => {
+function handleInput(event){
+ const newObj = { ...user , [event.target.name] : event.target.value }
+ setUser(newObj)
+ console.log(user);
+}
+
+
+
+
+
+
+
+ function register(e) {
     // alert("register function called");
-  e.preventDefault();
-  
+    e.preventDefault();
+    setErrors(Validation(user));
+    console.log(errors);
+ 
+ 
     if(user.name && user.contact && user.address && user.pincode && user.occupation && user.username && (user.password == user.repassword)){
       // alert("posted");   
       axios.post("http://localhost:8080/register", user )
@@ -36,13 +53,13 @@ export default function Registration(){
       else if (user.password != user.repassword){
         alert("Please re-enter password");
       }
-      else{
-        alert("Please fill all details")
+      // else{
+      //   alert("Please fill all details")
         
-        // alert("");
+      //   // alert("");
         
 
-      }
+      // }
     
     }
  
@@ -54,27 +71,39 @@ export default function Registration(){
        
         <div className="register">
             <h1>Registration</h1>
+            {/* <form onSubmit={register}> */}
             
-            <input type="text" placeholder='Enter Name' onBlur= {(e)=>setUser({...user, name:e.target.value})}/>
+            <input type="text" name='name' placeholder='Enter Name' onChange= {handleInput}/>
+            {errors.name && <p style={{color:'red', fontSize:'12px', textAlign:"start", paddingLeft:'20px'}}>{errors.name}</p>}
 
-            <input type="text" placeholder='Enter Contact' onBlur= {(e)=>setUser({...user, contact:e.target.value})}/>
+            <input type="text" name='contact' placeholder='Enter Contact' onChange= {handleInput}/>
+            {errors.contact && <p style={{color:'red', fontSize:'12px', textAlign:"start", paddingLeft:'20px'}}>{errors.contact}</p>}
 
-            <input type="text" placeholder='Enter Address' onBlur= {(e)=>setUser({...user, address:e.target.value})}/>
+            <input type="text" name='address' placeholder='Enter Address' onChange= {handleInput}/>
+            {errors.address && <p style={{color:'red', fontSize:'12px', textAlign:"start", paddingLeft:'20px'}}>{errors.address}</p>}
 
-            <input type="text" placeholder='Enter Pincode' onBlur= {(e)=>setUser({...user, pincode:e.target.value})}/>
+            <input type="text" name='pincode' placeholder='Enter Pincode' onChange= {handleInput}/>
+            {errors.pincode && <p style={{color:'red', fontSize:'12px', textAlign:"start", paddingLeft:'20px'}}>{errors.pincode}</p>}
 
-            <input type="text" placeholder='Enter Occupation' onBlur= {(e)=>setUser({...user, occupation:e.target.value})}/>
+            <input type="text" name='occupation' placeholder='Enter Occupation' onChange= {handleInput}/>
+            {errors.occupation && <p style={{color:'red', fontSize:'12px', textAlign:"start", paddingLeft:'20px'}}>{errors.occupation}</p>}
 
-            <input type="text" placeholder='Enter Username / Email' onBlur= {(e)=>setUser({...user,  username:e.target.value})}/>
+            <input type="text" name='username' placeholder='Enter Username / Email' onChange= {handleInput}/>
+            {errors.username && <p style={{color:'red', fontSize:'12px', textAlign:"start", paddingLeft:'20px'}}>{errors.username}</p>}
 
-            <input type="password" placeholder='Enter Password' onBlur= {(e)=>setUser({...user,  password:e.target.value})}/>
+            <input type="password" name='password' placeholder='Enter Password' onChange= {handleInput}/>
+            {errors.password && <p style={{color:'red', fontSize:'12px', textAlign:"start", paddingLeft:'20px'}}>{errors.password}</p>}
 
-            <input type="password" placeholder='Re - Enter Password' onBlur= {(e)=>setUser({...user,  repassword:e.target.value})}/>
+            <input type="password" name='repassword' placeholder='Re - Enter Password' onChange= {handleInput}/>
+            {errors.repassword && <p style={{color:'red', fontSize:'12px', textAlign:"start", paddingLeft:'20px'}}>{errors.repassword}</p>}
 
             
             <div type='submit' className='button' onClick={register}>Register</div>
-           
-
+            {/* <div className='submit'>
+              <input type='submit'  value="Register "/>
+            </div>
+            
+            </form> */}
             
         </div>
         
