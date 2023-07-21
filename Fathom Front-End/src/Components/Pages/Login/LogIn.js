@@ -9,7 +9,7 @@ export default function LogIn(){
     const[loginUser, setLoginUser] = useState("");
     const[user, setUser] = useState(
        { 
-        username:"",
+        email:"",
         password:""
         }
     );
@@ -19,7 +19,7 @@ export default function LogIn(){
     async function submit(e){
 
         e.preventDefault(); // prevents default form submitting behaviour
-        if(user.username != "" && user.password != ""){
+        if(user.email != "" && user.password != ""){
             const response = await axios.post("http://localhost:8080/login",user)
                 .then((response) =>{
                     alert(response.data.message)
@@ -32,17 +32,17 @@ export default function LogIn(){
                     
             }).catch((response)=>
             {
-                console.log("Invalid username/password")
+                console.log("Invalid email/password")
             })
         }
-        else if(user.username == "" && user.password != ""){
-            alert("Please enter Username !!")
+        else if(user.email == "" && user.password != ""){
+            alert("Please enter email !!")
         }
-        else if(user.password == "" && user.username != ""){
+        else if(user.password == "" && user.email != ""){
             alert("Please enter Password !!")
         }
         else {
-            alert("Please enter Username and Password !!")
+            alert("Please enter email and Password !!")
         }
         
             
@@ -53,7 +53,7 @@ export default function LogIn(){
         <>
         <div className="login">
             <h1>Login</h1>
-            <input type="text" placeholder='Enter Username / Email' onBlur= {(e)=> setUser({ ...user, username: e.target.value})}/>
+            <input type="text" placeholder='Enter Email' onBlur= {(e)=> setUser({ ...user,email : e.target.value})}/>
             <input type="password" placeholder='Enter Password' onBlur = {(e) => setUser({...user, password:e.target.value})} />
             <div className='button' onClick = {submit}>Login</div>
             <div>or</div>

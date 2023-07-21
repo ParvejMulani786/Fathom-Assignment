@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
     address:String,
     pincode:Number,
     occupation:String,
-    username:String,
+    email:String,
     password:String
 
 })
@@ -39,8 +39,8 @@ const User = new mongoose.model("User", userSchema )
 // } 
 
 server.post("/login", (req, res)=> {
-    const { username, password} = req.body
-    User.findOne({ username: username}, (err, user) => {
+    const { email, password} = req.body
+    User.findOne({ email: email}, (err, user) => {
         if(user){
             if(password === user.password ) {
                 res.send({message: "Successfully Login !!", user: user})
@@ -54,10 +54,10 @@ server.post("/login", (req, res)=> {
 })
 
 server.post('/register', (req,res) =>{
-    const { name, contact, address, pincode, occupation, username, password } = req.body
+    const { name, contact, address, pincode, occupation, email, password } = req.body
     
     //check if user is already exist using findOne() of mongoose
-    User.findOne({username: username}, (err, user) => {
+    User.findOne({email: email}, (err, user) => {
         if(user){
             res.send({message: "User already exist"})
         } else {
@@ -67,7 +67,7 @@ server.post('/register', (req,res) =>{
                 address,
                 pincode,
                 occupation,
-                username,
+                email,
                 password 
             })
             user.save(err => {
@@ -75,7 +75,8 @@ server.post('/register', (req,res) =>{
                      
                      res.send({ message: "Invalid credentials !! Please enter valid Input" })
                 } else {
-                    res.send( { message: "Successfully Registration Done !!" })
+                    res.send( { message: "Successfully Registration Done !!" ,
+                                user: user })
 
                 }
             })

@@ -3,19 +3,30 @@ import {useLocation, useNavigate} from 'react-router-dom'
 import './dashboard.css'
 import backImg from '../../Assets/backImg.jpg'
 import profilephoto from '../../Assets/profilephoto.png'
+import { useSelector } from "react-redux";
 
 export default function Dashboard({setLoginUser}){
      const nav = useNavigate();
-    const user = useLocation();
-    console.log(user.state.username);
+    // const user = useLocation();
+    // console.log(user.state.email);
 
-    const name=user.state.name;
-    const contact=user.state.contact;
-    const address=user.state.address;
-    const pincode=user.state.pincode; 
-    const occupation=user.state.occupation;
-    const username=user.state.username;
-    const password=user.state.password;
+    const myUser = useSelector((state) => state.getUser);
+
+    // const name=user.state.name;
+    // const contact=user.state.contact;
+    // const address=user.state.address;
+    // const pincode=user.state.pincode; 
+    // const occupation=user.state.occupation;
+    // const email=user.state.email;
+    // const password=user.state.password;
+
+    const name= myUser.name;
+    const contact= myUser.contact;
+    const address= myUser.address;
+    const pincode= myUser.pincode; 
+    const occupation= myUser.occupation;
+    const email= myUser.email;
+    const password= myUser.password;
 
     return(
         <>
@@ -59,8 +70,8 @@ export default function Dashboard({setLoginUser}){
                     <p >{pincode}</p>
                   </div>
                   <div class="col-6 mb-4">
-                    <h4>Username</h4>
-                    <p >{username}</p>
+                    <h4>Email</h4>
+                    <p >{email}</p>
                   </div>
                   <div class="col-6 mb-4">
                     <h4>Occupation</h4>

@@ -3,9 +3,13 @@ import axios from 'axios';
 import './registration.css';
 import { useNavigate } from 'react-router-dom';
 import Validation from './Validation';
+import { addUser } from '../../Redux/Actions/index'
+import { useDispatch } from 'react-redux';
+
 
 export default function Registration(){
     const nav=useNavigate();
+    const dispatch = useDispatch();
   
   const[user,setUser]=useState({
     name:"",
@@ -13,7 +17,7 @@ export default function Registration(){
     address:"",
     pincode:"",
     occupation:"",
-    username:"",
+    email:"",
     password:"",
     repassword:""
 
@@ -38,28 +42,32 @@ function handleInput(event){
     setErrors(Validation(user));
     console.log(errors);
  
- 
-    if(user.name && user.contact && user.address && user.pincode && user.occupation && user.username && (user.password == user.repassword)){
-      // alert("posted");   
-      axios.post("http://localhost:8080/register", user )
-      .then((response)=>
-      {
-        alert(response.data.message);
-        if( response.data.message == "Successfully Registration Done !!"){
-          nav("/login")
-        }
-     
-      })}
-      else if (user.password != user.repassword){
-        alert("Please re-enter password");
-      }
-      // else{
-      //   alert("Please fill all details")
-        
-      //   // alert("");
+    if(errors.password== "" && errors.repassword== "" ){
+      if(user.name && user.contact && user.address && user.pincode && user.occupation && user.email && (user.password == user.repassword)){
+        // alert("posted");   
+       
         
 
-      // }
+
+        axios.post("http://localhost:8080/register", user )
+        .then((response)=>
+        {
+          alert(response.data.message);
+          if( response.data.message == "Successfully Registration Done !!"){
+             // dispatch action to add user in Redux Store
+             if(response.data.user != ""){
+              console.log("Response: " + response.data.user.name);
+              dispatch(addUser(response.data.user));
+              nav("/login")
+             }
+           
+          }
+       
+        })}
+        else if (user.password != user.repassword){
+          alert("Please re-enter password");
+        }
+    }
     
     }
  
@@ -88,8 +96,8 @@ function handleInput(event){
             <input type="text" name='occupation' placeholder='Enter Occupation' onChange= {handleInput}/>
             {errors.occupation && <p style={{color:'red', fontSize:'12px', textAlign:"start", paddingLeft:'20px'}}>{errors.occupation}</p>}
 
-            <input type="text" name='username' placeholder='Enter Username / Email' onChange= {handleInput}/>
-            {errors.username && <p style={{color:'red', fontSize:'12px', textAlign:"start", paddingLeft:'20px'}}>{errors.username}</p>}
+            <input type="text" name='email' placeholder='Enter Email' onChange= {handleInput}/>
+            {errors.email && <p style={{color:'red', fontSize:'12px', textAlign:"start", paddingLeft:'20px'}}>{errors.email}</p>}
 
             <input type="password" name='password' placeholder='Enter Password' onChange= {handleInput}/>
             {errors.password && <p style={{color:'red', fontSize:'12px', textAlign:"start", paddingLeft:'20px'}}>{errors.password}</p>}
@@ -99,11 +107,10 @@ function handleInput(event){
 
             
             <div type='submit' className='button' onClick={register}>Register</div>
-            {/* <div className='submit'>
-              <input type='submit'  value="Register "/>
-            </div>
             
-            </form> */}
+            {/* <div type='submit' className='button' onClick={dispatch(addUser())}>Register</div> */}
+
+            
             
         </div>
         

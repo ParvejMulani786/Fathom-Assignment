@@ -7,7 +7,7 @@ import Registration from './Components/Pages/Register/Registration'
 import LogIn from './Components/Pages/Login/LogIn'
 import Dashboard from './Components/Pages/Dashboard/Dashboard'
 import AboutUS from './Components/Pages/AboutUS/AboutUS';
-import ContactUS from './Components/Pages/ConatctUS/ContactUS';
+import ContactUS from './Components/Pages/ContactUS/ContactUS';
 
 function App() {
   return (

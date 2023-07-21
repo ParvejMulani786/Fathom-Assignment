@@ -3,7 +3,7 @@ import React from 'react'
 import img2 from '../../Assets/home.png'
 import './Home.css'
 import AboutUs from '../AboutUS/AboutUS'
-import ContactUS from '../ConatctUS/ContactUS'
+import ContactUS from '../ContactUS/ContactUS'
 
 export default function Home(){
     return(

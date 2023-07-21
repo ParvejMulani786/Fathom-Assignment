@@ -4,13 +4,18 @@ export default function Validation(user){
     const errors = {}
 
     const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,6}$/;
-    const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/; // 1 a 1 A A-z a-z 0-9  min 8
+    const password_pattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/; // Minimum eight characters, at least one letter, one number and one special character
     const contact_pattern = /^[0-9]{10}$/ ;
+    const pin_pattern = /^[0-9]{6}$/ ;
+    const occupation_pattern = /(?!^\d+$)^.+$/;
+
+
     if(user.name === ""){
         errors.name = "Name is Required";
     }else{
         errors.name="";
     }
+
     if(user.contact === ""){
         errors.contact ="Contact is Required";
     }
@@ -21,26 +26,38 @@ export default function Validation(user){
     if(user.address === ""){
         errors.address ="Address is Required";
     }
+
     if(user.pincode === ""){
         errors.pincode ="Pincode is Required";
     }
-    if(user.occupation === ""){
-        errors.occupation ="Occupation is Required";
+    else if (!pin_pattern.test(user.pincode)){
+        errors.pincode= "Invalid pin code"
     }
 
-    if(user.username === ""){
-        errors.username ="Username is Required";
+    if(user.occupation === ""){
+        errors.occupation = "Occupation is Required";
     }
-    else if(!email_pattern.test(user.username)){
-        errors.username = "Invalid Email "
+    else if (!occupation_pattern.test(user.occupation )){
+        errors.occupation = "Invalid occupation"
+    }
+
+    if(user.email === ""){
+        errors.email ="Email is Required";
+    }
+    else if(!email_pattern.test(user.email)){
+        errors.email = "Invalid Email "
     }
 
     if(user.password === ""){
         errors.password ="password is Required";
     }
     else if (!password_pattern.test(user.password)){
-        errors.password = "Password should contain atleast 8 charcters, 1 lowercase , 1 uppercase, 1 digit "
+        errors.password = "Minimum eight characters, at least one letter, one number and one special character"
     }
+    else{
+        errors.password ="";
+    }
+
     if(user.repassword === ""){
         errors.repassword ="Re-enter password is Required";
     }
@@ -48,6 +65,9 @@ export default function Validation(user){
         
         errors.repassword = "These passwords don't match.Try Again? "
         
+    }
+    else{
+        errors.repassword ="";
     }
     
     return errors;
